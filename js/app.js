@@ -11,7 +11,6 @@ var guessRand
 var guessEntry=0
 var guessArray[]
 var guessCount=0
-var guessTemp 
 
 $(document).ready(function(){
 	
@@ -26,22 +25,55 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
+
 	//get dom objects
-	$selectNew = $('a.new');
-	$form = $('form');
-	$counter = $('#count');
-	$guesses = $('#guessList');
+	resetVars();
+
+	//new game
+	newGame();
+
+	//submit form
+	guessInput();
+
+	//evaluate guess
+	guessEval();
+
+	//append input to guess history	
+	guessHistory();
 
 	function newgame () {
-		guessRand=parseInt(math.Random()*100)
-		guessTemp = "Make your guess!"
+		guessRand ();
+	}
+
+	function guessRand () {
+		return parseInt(math.Random()*100)+1;
+		guessTemp = "Make your guess!";
+	}
+
+	function resetVars () {
+		$selectNew = $('a.new');
+		$form = $('form');
+		$counter = $('#count');
+		$guesses = $('#guessList');
 
 	}
 
+	function guessInput () {
 
 
 
+	}
 
+	function guessEval () {
+
+
+
+	}
+
+	function guessHistory () {
+
+
+	}
 
 
 
