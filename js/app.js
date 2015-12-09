@@ -7,10 +7,10 @@
 
 
 //initialize variables
-var guessRand
-var guessEntry=0
-var guessArray[]
-var guessCount=0
+	var guessEntry
+	var guessArray[]
+	var guessCounter
+	resetVars();
 
 $(document).ready(function(){
 	
@@ -26,45 +26,64 @@ $(document).ready(function(){
   	});
 
 
-	//get dom objects
+	//get form info
 	resetVars();
-
+ 	$input = $form.find('#userGuess');
+ 
 	//new game
 	newGame();
 
 	//submit form
-	guessInput();
+	guessInput($input);
 
 	//evaluate guess
 	guessEval();
 
-	//append input to guess history	
+	//provide feedback
+	guessFeedback();
+
+	//update history
 	guessHistory();
 
-	function newgame () {
-		guessRand ();
+
+	function putData(){
+		$guessList.html(guessHistory);
+		$count.html(guessCounter);
+		$feedback.html(guessFeedbackMessage);
 	}
 
-	function guessRand () {
-		return parseInt(math.Random()*100)+1;
-		guessTemp = "Make your guess!";
+	function getData() {
+		$formNew = $('a.new');
+		$formCount = $('#count');
 	}
 
 	function resetVars () {
-		$selectNew = $('a.new');
-		$form = $('form');
-		$counter = $('#count');
-		$guesses = $('#guessList');
-
+		guessEntry=0;
+		guessHistory=[];
+		guessCounter=0;
 	}
 
-	function guessInput () {
+	function newgame () {
+		resetVars();
+		getRandomNumber ();
+		guessInput();
+	}
 
-
-
+	function getRandomNumber () {
+		return parseInt(math.Random()*100)+1;
+		guessFeedbackMessage = "Make your guess!";
 	}
 
 	function guessEval () {
+		guessInput= $form.find('input[type=submit]');
+		//$input.val();
+		//focus on input for next guess
+		//$input.focus();
+		
+		//validate input
+	}
+
+	function guessFeedback () {
 
 
 
@@ -74,17 +93,6 @@ $(document).ready(function(){
 
 
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
