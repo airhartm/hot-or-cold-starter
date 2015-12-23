@@ -11,7 +11,7 @@ var guessEntry;
 var guessArray;
 var guessRand;
 var guessCounter;
-
+var guessFeedbackMessage="Make a guess!"
 $(document).ready(function(){
 	
 	/*--- Display information modal box ---*/
@@ -25,16 +25,30 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
+  	/*--- Reset game ---*/
+  	$(".new").click(function(){
+  		newGame();
+  	});
+
 	//new game
 	newGame();
 
+	$('#guessButton').click(function(e) {
+		e.preventDefault();
+		guessEntry= $('#userGuess').val();
+		guessEval();
+		})
 });
 
-	function newgame () {
+	function newGame () {
 		resetVars();
 		guessRand=getRandomNumber ();
+		entry();
+	}
+
+	function entry(){
+		console.log("random number is "+guessRand);
 		buttonNewGame = $('a.new');
-		guessEntry= $('userGuess').val();
 	}
 
 	function putData(){
@@ -45,59 +59,67 @@ $(document).ready(function(){
 
 	function resetVars () {
 		guessEntry=0;
-		guessHistory=[];
+		guessArray=[];
 		guessCounter=0;
+		document.getElementById("guessButton").style.visibility = "visible";
+		putData();
 	}
 
 	function getRandomNumber () {
-		guessFeedbackMessage = "Make your guess!";
-		return parseInt(math.Random()*100)+1;
+		guessFeedbackMessage = "Make a guess";
+		return parseInt(Math.random()*100)+1;
 	}
 
 	//validate input
 	function guessEval () {
-		if (guessEntry < 1 or guessEntry > 100) {
+	 	console.log("entry was "+guessEntry);
+		if ((guessEntry < 1) || (guessEntry > 100)) {
 			guessFeedbackMessage="Try again. Choose a number between 1 and 100."
 		}		
-		else if (guessEntry <>parseInt(guessEntry)) {
+		else if (guessEntry !=parseInt(guessEntry)) {
 			guessFeedbackMessage="Try again. Your choice must be an integer."
 		}
-		else 
-			guessArray.push(guessEntry)
-			guessHistory()
-			guessFeedback()
+		else {
+			guessArray.push(guessEntry);
+			guessHistory();
+			guessFeedback();
+		}
+		$('#feedback').html(guessFeedbackMessage);
+
 	}
 
 	function guessFeedback () {
-		guessDifference=math.abs(guessEntry-guessRand)
-		switch (guessDifference) {
-			case (guessDifference > 50):
-				guessFeedbackMessage="You're freezing!";
-				break;
-			case (guessDifference > 40):
-				guessFeedbackMessage="Cold";
-				break;
-			case (guessDifference > 30):
-				guessFeedbackMessage="Cool";
-				break;
-			case (guessDifference > 20):
-				guessFeedbackMessage="Warm";
-				break;
-			case (guessDifference > 10):
-				guessFeedbackMessage="Hot";
-				break;
-			case (guessDifference <= 10):
-				guessFeedbackMessage="You're on fire!";
-				break;
+		guessDifference=Math.abs(guessEntry-guessRand)
+			 	console.log("GD1="+guessDifference);
+		if (guessDifference > 50) {
+			guessFeedbackMessage="You're freezing!";
 		}
+		else if (guessDifference > 40) {
+			guessFeedbackMessage="Cold";
+		}
+		else if (guessDifference > 30) {
+			guessFeedbackMessage="Cool";
+		}
+		else if (guessDifference > 20) {
+			guessFeedbackMessage="Warm";
+		}
+		else if (guessDifference > 10) {
+			guessFeedbackMessage="Hot";
+		}
+		else if (guessDifference > 5) {
+			guessFeedbackMessage="You're on fire!";
+		}
+		else {
+			guessFeedbackMessage="You're a winner!";
+			document.getElementById("guessButton").style.visibility = "hidden";
+		};
 		guessCounter++;
-		guessHistory();
 		putData();
 	}
 
 	function guessHistory () {
-
-
+		guessList= '';
+		 	
 	}
 
 
