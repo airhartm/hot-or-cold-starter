@@ -10,8 +10,8 @@
 var guessEntry;
 var guessArray;
 var guessRand;
-var guessCounter;
-var guessFeedbackMessage="Make a guess!"
+var guessCounter=1;
+var guessFeedbackMessage;
 $(document).ready(function(){
 	
 	/*--- Display information modal box ---*/
@@ -44,6 +44,8 @@ $(document).ready(function(){
 		resetVars();
 		guessRand=getRandomNumber ();
 		entry();
+		$('#feedback').html(guessFeedbackMessage);
+
 	}
 
 	function entry(){
@@ -52,7 +54,7 @@ $(document).ready(function(){
 	}
 
 	function putData(){
-		$('#guessList').html(guessHistory);
+		$('#guessList').html(guessList);
 		$('#count').html(guessCounter);
 		$('#feedback').html(guessFeedbackMessage);
 	}
@@ -60,9 +62,11 @@ $(document).ready(function(){
 	function resetVars () {
 		guessEntry=0;
 		guessArray=[];
-		guessCounter=0;
+		guessCounter=1;
 		document.getElementById("guessButton").style.visibility = "visible";
+		guessList='';
 		putData();
+		guessFeedbackMessage="Make a guess!"
 	}
 
 	function getRandomNumber () {
@@ -83,6 +87,8 @@ $(document).ready(function(){
 			guessArray.push(guessEntry);
 			guessHistory();
 			guessFeedback();
+			guessCounter++;
+			putData();
 		}
 		$('#feedback').html(guessFeedbackMessage);
 
@@ -90,7 +96,6 @@ $(document).ready(function(){
 
 	function guessFeedback () {
 		guessDifference=Math.abs(guessEntry-guessRand)
-			 	console.log("GD1="+guessDifference);
 		if (guessDifference > 50) {
 			guessFeedbackMessage="You're freezing!";
 		}
@@ -106,20 +111,23 @@ $(document).ready(function(){
 		else if (guessDifference > 10) {
 			guessFeedbackMessage="Hot";
 		}
-		else if (guessDifference > 5) {
+		else if (guessDifference > 0) {
 			guessFeedbackMessage="You're on fire!";
 		}
 		else {
 			guessFeedbackMessage="You're a winner!";
 			document.getElementById("guessButton").style.visibility = "hidden";
+			$('#userGuess').val('');
+			guessCounter--;
 		};
-		guessCounter++;
-		putData();
 	}
 
 	function guessHistory () {
-		guessList= '';
-		 	
+		guessList='';
+		for (i = 1; i <= guessCounter; i++) { 
+    		guessList=guessList+'<li>'+guessArray[i-1]+'</li>';
+		}
+		$('#guessList').html(guessList);
 	}
 
 
